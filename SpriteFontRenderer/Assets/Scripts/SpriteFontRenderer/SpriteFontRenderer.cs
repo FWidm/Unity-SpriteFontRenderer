@@ -40,18 +40,19 @@ public class SpriteFontRenderer : MonoBehaviour
         {
             gameObjectList = new List<GameObject>();
         }
-        
-
         UpdateNumberDisplay();
     }
-
+// remove this directive if you want the text to update ingame as well
 #if UNITY_EDITOR
     void Update()
     {
+        // do things here that should happen when it is playing or remove the whole line to enable autoupdating
+        // might need to be modified to not update on EVERY Update() call from unity.
         if (EditorApplication.isPlaying) return;
         UpdateNumberDisplay();
     }
 #endif
+
     /// <summary>
     /// Updates the Numbers it has to display.
     /// </summary>
@@ -79,7 +80,6 @@ public class SpriteFontRenderer : MonoBehaviour
         float xOffset = 0;
         for (int i = 0; i < length; i++)
         {
-            //Sprite sprite = sprites [GetNumberIndex (chars [i])];
             if (debugging)
                 Debug.Log("n=" + chars[i] + " - ret=" + GetNumberIndex(chars[i]));
             GameObject go = new GameObject("Spritefont=" + chars[i] + "| pos=" + i, typeof(SpriteRenderer));
@@ -147,9 +147,6 @@ public class SpriteFontRenderer : MonoBehaviour
     /// <param name="obj">Gameobject</param>
     private float GetDimensionInPX(GameObject obj)
     {
-        //tmpDimension.x = obj.transform.localScale.x * obj.GetComponent<SpriteRenderer> ().sprite.bounds.size.x;  // this is gonna be our width
-        //tmpDimension.y = obj.transform.localScale.y * obj.GetComponent<SpriteRenderer> ().sprite.bounds.size.y;  // this is gonna be our height
-
         float xBoundValue = obj.GetComponent<SpriteRenderer>().sprite.bounds.max.x - obj.GetComponent<SpriteRenderer>().sprite.bounds.min.x;
         float yBoundValue = obj.GetComponent<SpriteRenderer>().sprite.bounds.max.y - obj.GetComponent<SpriteRenderer>().sprite.bounds.min.y;
 
@@ -166,6 +163,5 @@ public class SpriteFontRenderer : MonoBehaviour
         PropertyInfo sortingLayersProperty = internalEditorUtilityType.GetProperty("sortingLayerNames", BindingFlags.Static | BindingFlags.NonPublic);
         return (string[])sortingLayersProperty.GetValue(null, new object[0]);
     }
-
 
 }
